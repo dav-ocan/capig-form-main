@@ -37,9 +37,9 @@ ALLOWED_HOSTS = ['*']
 
 if env.str('ENVIRONMENT') == 'prod':
     ALLOWED_HOSTS = ['localhost', '127.0.0.1',
-                     'inapps-heimdal.up.railway.app', 'healthcheck.railway.app']
+                     'capig-form.onrender.com']
 
-CSRF_TRUSTED_ORIGINS = ['https://inapps-heimdal.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://capig-form.onrender.com']
 
 
 # Application definition

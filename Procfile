@@ -1,0 +1,1 @@
+web: gunicorn inapps.wsgi --workers=3 --timeout=90

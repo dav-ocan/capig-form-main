@@ -143,3 +143,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SHEET_PATH = env.str('SHEET_PATH')
 SERVICE = env.str('SERVICE')
+
+# Código de seguridad para formularios (6 dígitos)
+SECURITY_CODE = env.str('SECURITY_CODE', default='123456')

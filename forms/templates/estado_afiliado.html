@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}Estado de Afiliado - CAPIG{% endblock %}
+
+{% block content %}
+<div class="form-header">
+    <h2>Consultar Estado de Afiliación</h2>
+    <p>Busca y actualiza el estado (Activo/Inactivo)</p>
+    <a href="{% url 'forms:home' %}" class="btn-back">← Menú Principal</a>
+</div>
+
+<div class="form-content">
+    <form method="POST" class="text-center">
+        {% csrf_token %}
+        <input type="hidden" name="security_code" value="">
+        
+        {% if no_encontrado %}
+            <input
+                type="text"
+                name="ruc"
+                class="form-control mb-4"
+                placeholder="Ingrese RUC"
+                value="{{ request.POST.ruc }}"
+                required
+            >
+            <div class="alert alert-danger">No se encontró el afiliado.</div>
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        {% elif afiliado %}
+            <input type="hidden" name="ruc" value="{{ request.POST.ruc }}">
+        <div class="card p-4 text-start">
+            <p><strong>Razón Social:</strong> {{ afiliado.razon_social }}</p>
+            <p><strong>Ciudad:</strong> {{ afiliado.ciudad }}</p>
+            <p><strong>Fecha Afiliación:</strong> {{ afiliado.fecha_afiliacion }}</p>
+            <p><strong>Estado actual:</strong>
+                <span class="badge {% if afiliado.estado|lower == 'activo' %}bg-success{% else %}bg-danger{% endif %}">
+                    {{ afiliado.estado }}
+                </span>
+            </p>
+
+            <label for="estado" class="mt-3">Nuevo Estado:</label>
+            <select name="estado" id="estado" class="form-select" required>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+            </select>
+
+            <div class="d-flex gap-2 mt-3">
+                <button type="submit" class="btn btn-primary" data-require-security="true">Actualizar</button>
+                <a href="{% url 'forms:estado_afiliado' %}" class="btn btn-outline-secondary">Volver</a>
+            </div>
+        </div>
+        {% else %}
+            <input
+                type="text"
+                name="ruc"
+                class="form-control mb-4"
+                placeholder="Ingrese RUC"
+                value="{{ request.POST.ruc }}"
+                required
+            >
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

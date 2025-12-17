@@ -157,6 +157,7 @@ def cap_form_view(request):
         SHEET_NAME = 'CAPACITACIONES'
 
         razon_social = request.POST.get('razon_social')
+        no_en_lista = request.POST.get('no_en_lista') == 'on'
         nombre_capacitacion = request.POST.get('nombre_capacitacion')
         tipo_capacitacion = request.POST.get('tipo_capacitacion')
         valor_pago = request.POST.get('valor_pago')
@@ -168,6 +169,7 @@ def cap_form_view(request):
 
         print("\n=== FORMULARIO DE CAPACITACIÓN ===")
         print(f"Razón Social: {razon_social}")
+        print(f"No en lista: {'Sí' if no_en_lista else 'No'}")
         print(f"Nombre de la Capacitación: {nombre_capacitacion}")
         print(f"Tipo de Capacitación: {tipo_capacitacion}")
         print(f"Valor del Pago: ${valor_pago}")

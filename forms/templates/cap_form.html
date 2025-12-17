@@ -4,32 +4,34 @@
 
 {% block content %}
 <div class="form-header">
-    <h2>Formulario de Capacitación</h2>
+    <h2>Capacitación</h2>
     <p>Complete la información de la capacitación</p>
+    <a href="{% url 'forms:home' %}" class="btn-back">← Menú Principal</a>
 </div>
 
 <div class="form-content">
-    {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endfor %}
-    {% endif %}
-    
     <form method="POST" action="{% url 'forms:cap_form' %}" id="capForm">
         {% csrf_token %}
         
         <!-- Razón Social -->
         <div class="mb-4">
-            <label for="razon_social" class="form-label">Razón Social <span class="text-danger">*</span></label>
-            <select class="form-select" id="razon_social" name="razon_social" required>
+            <label for="razon_social" class="form-label">Razón Social o Nombre <span class="text-danger">*</span></label>
+            
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="no_en_lista" name="no_en_lista">
+                <label class="form-check-label" for="no_en_lista">
+                    ¿No está en la lista?
+                </label>
+            </div>
+            
+            <select class="form-select" id="razon_social_select" name="razon_social" required>
                 <option value="">Seleccione una razón social...</option>
                 {% for empresa in empresas %}
                 <option value="{{ empresa }}">{{ empresa }}</option>
                 {% endfor %}
             </select>
+            
+            <input type="text" class="form-control" id="razon_social_input" name="razon_social" placeholder="Escriba la razón social o nombre..." style="display: none;" autocomplete="off">
         </div>
         
         <!-- Nombre de la Capacitación -->
@@ -67,9 +69,7 @@
         
         <!-- Botón de Envío -->
         <div class="text-center">
-            <button type="submit" class="btn btn-primary">
-                <i class="bi bi-send"></i> Enviar Capacitación
-            </button>
+            <button type="submit" class="btn btn-primary">Enviar Capacitación</button>
         </div>
     </form>
 </div>
@@ -79,11 +79,26 @@
 <script>
     $(document).ready(function() {
         // Inicializar Select2 para razón social
-        $('#razon_social').select2({
+        $('#razon_social_select').select2({
             theme: 'bootstrap-5',
             placeholder: 'Buscar razón social...',
             allowClear: true,
             width: '100%'
+        });
+        
+        // Manejar el checkbox "No en lista"
+        $('#no_en_lista').on('change', function() {
+            if ($(this).is(':checked')) {
+                // Ocultar select y mostrar input
+                $('#razon_social_select').next('.select2-container').hide();
+                $('#razon_social_select').prop('required', false);
+                $('#razon_social_input').show().prop('required', true);
+            } else {
+                // Mostrar select y ocultar input
+                $('#razon_social_select').next('.select2-container').show();
+                $('#razon_social_select').prop('required', true);
+                $('#razon_social_input').hide().prop('required', false).val('');
+            }
         });
         
         // Formatear el valor del pago mientras se escribe
@@ -103,6 +118,15 @@
         
         // Validación del formulario
         $('#capForm').on('submit', function(e) {
+            // Asegurar que solo el campo activo tenga name="razon_social"
+            if ($('#no_en_lista').is(':checked')) {
+                $('#razon_social_select').removeAttr('name');
+                $('#razon_social_input').attr('name', 'razon_social');
+            } else {
+                $('#razon_social_input').removeAttr('name');
+                $('#razon_social_select').attr('name', 'razon_social');
+            }
+            
             const valorPago = parseFloat($('#valor_pago').val());
             
             if (isNaN(valorPago) || valorPago < 0) {

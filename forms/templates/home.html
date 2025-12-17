@@ -4,9 +4,11 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio CAPIG</title>
 
     <style>
+        /* ===== RESET Y BASE (Mobile First) ===== */
         * {
             margin: 0;
             padding: 0;
@@ -16,173 +18,360 @@
         body {
             background: linear-gradient(135deg, #8aa8ff, #9e6bff);
             min-height: 100vh;
-            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            padding: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: "Segoe UI", Arial;
-            padding: 20px 10px;
         }
 
-        .box {
+        /* ===== CONTENEDOR PRINCIPAL ===== */
+        .container {
             background: #fff;
-            padding: 30px 20px;
             width: 100%;
-            max-width: 520px;
-            border-radius: 22px;
-            text-align: center;
-            box-shadow: 0 14px 40px rgba(0,0,0,0.18);
-            animation: fadeIn 0.7s ease;
-        }
-
-        /* Animación suave */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Logo */
-        .logo {
-            width: 150px;
             max-width: 100%;
-            margin-bottom: 20px;
-            filter: drop-shadow(0px 2px 3px rgba(0,0,0,0.2));
+            border-radius: 16px;
+            padding: 20px 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            animation: slideUp 0.5s ease-out;
         }
 
-        p {
-            font-size: 15px;
-            color: #444;
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .welcome-text {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        /* ===== SECCIONES ===== */
+        .section {
             margin-bottom: 20px;
         }
 
-        /* Separador de secciones */
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-header {
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
         .section-title {
             font-size: 13px;
-            font-weight: bold;
-            color: #666;
-            margin-top: 25px;
-            margin-bottom: 10px;
+            font-weight: 700;
+            color: #333;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .section-title:first-of-type {
-            margin-top: 15px;
+        /* ===== MENÚ DE BOTONES ===== */
+        .menu-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .section-divider {
-            height: 1px;
-            background: linear-gradient(to right, transparent, #ddd, transparent);
-            margin: 20px 0;
-        }
-
-        /* Botones */
-        a {
-            display: block;
-            padding: 14px 12px;
-            margin-top: 12px;
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
             border-radius: 12px;
             text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:active::before {
+            transform: translateX(0);
+        }
+
+        .menu-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .menu-arrow {
             font-size: 16px;
-            transition: 0.25s;
-            font-weight: bold;
+            opacity: 0.6;
         }
 
-        .btn1 {
-            background: linear-gradient(#6d5bff, #916bff);
+        /* ===== ESTILOS DE BOTONES POR CATEGORÍA ===== */
+        
+        /* Servicios - Gradientes */
+        .btn-asesoria {
+            background: linear-gradient(135deg, #6d5bff, #916bff);
             color: white;
-        }
-        .btn1:hover, .btn1:active {
-            transform: scale(1.03);
-            box-shadow: 0 4px 15px rgba(120,90,255,0.4);
+            box-shadow: 0 4px 12px rgba(109, 91, 255, 0.3);
         }
 
-        .btn2 {
-            border: 2px solid #6d5bff;
-            color: #6d5bff;
-            background: white;
-        }
-        .btn2:hover, .btn2:active {
-            background: #f4f0ff;
-            transform: scale(1.03);
-            box-shadow: 0 4px 15px rgba(120,90,255,0.25);
+        .btn-capacitacion {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+            color: white;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
         }
 
-        .btn3 {
-            border: 2px solid #16a34a;
-            color: #15803d;
-            background: #e9f7ef;
-        }
-        .btn3:hover, .btn3:active {
-            background: #d3f0df;
-            transform: scale(1.03);
-            box-shadow: 0 4px 15px rgba(22,163,74,0.2);
-        }
-
-        .btn4 {
-            border: 2px solid #0891b2;
-            color: #0e7490;
-            background: #e0f7fb;
-        }
-        .btn4:hover, .btn4:active {
-            background: #c8eff7;
-            transform: scale(1.03);
-            box-shadow: 0 4px 15px rgba(8,145,178,0.2);
-        }
-
-        .btn5 {
-            border: 2px solid #d97706;
-            color: #b45309;
+        /* Gestión de Afiliados - Colores sólidos */
+        .btn-registro {
             background: #fff7ed;
-        }
-        .btn5:hover, .btn5:active {
-            background: #ffedd5;
-            transform: scale(1.03);
-            box-shadow: 0 4px 15px rgba(217,119,6,0.2);
+            color: #c2410c;
+            border: 2px solid #fed7aa;
         }
 
-        /* Para tablets y pantallas más grandes */
-        @media(min-width: 600px) {
-            .box {
-                padding: 50px 40px;
+        .btn-estado {
+            background: #ecfdf5;
+            color: #065f46;
+            border: 2px solid #a7f3d0;
+        }
+
+        .btn-ventas {
+            background: #f0f9ff;
+            color: #075985;
+            border: 2px solid #bae6fd;
+        }
+
+        /* Efectos hover/active para mobile */
+        .menu-item:active {
+            transform: scale(0.98);
+        }
+
+        .btn-asesoria:active,
+        .btn-capacitacion:active {
+            box-shadow: 0 2px 8px rgba(109, 91, 255, 0.4);
+        }
+
+        .btn-registro:active {
+            background: #ffedd5;
+        }
+
+        .btn-estado:active {
+            background: #d1fae5;
+        }
+
+        .btn-ventas:active {
+            background: #e0f2fe;
+        }
+
+        /* ===== TABLET (sm) ===== */
+        @media (min-width: 480px) {
+            body {
+                padding: 16px;
             }
+
+            .container {
+                padding: 28px 24px;
+                border-radius: 20px;
+            }
+
             .logo {
-                width: 180px;
+                width: 140px;
+                margin-bottom: 16px;
             }
-            p {
-                font-size: 17px;
-                margin-bottom: 30px;
+
+            .welcome-text {
+                font-size: 14px;
             }
+
+            .section {
+                margin-bottom: 24px;
+            }
+
+            .section-title {
+                font-size: 14px;
+            }
+
+            .menu-item {
+                padding: 16px 18px;
+                font-size: 15px;
+            }
+        }
+
+        /* ===== TABLET GRANDE (md) ===== */
+        @media (min-width: 768px) {
+            body {
+                padding: 24px;
+            }
+
+            .container {
+                max-width: 600px;
+                padding: 36px 32px;
+                border-radius: 24px;
+            }
+
+            .logo {
+                width: 160px;
+                margin-bottom: 20px;
+            }
+
+            .welcome-text {
+                font-size: 15px;
+            }
+
+            .section {
+                margin-bottom: 28px;
+            }
+
+            .section-header {
+                margin-bottom: 16px;
+            }
+
             .section-title {
                 font-size: 15px;
-                margin-top: 30px;
             }
-            .section-divider {
-                margin: 25px 0;
+
+            .menu-grid {
+                gap: 12px;
             }
-            a {
-                padding: 14px;
-                margin-top: 15px;
-                font-size: 18px;
+
+            .menu-item {
+                padding: 18px 20px;
+                font-size: 16px;
+                border-radius: 14px;
+            }
+
+            /* Hover effects para desktop */
+            .menu-item:hover {
+                transform: translateY(-2px);
+            }
+
+            .btn-asesoria:hover,
+            .btn-capacitacion:hover {
+                box-shadow: 0 6px 20px rgba(109, 91, 255, 0.4);
+            }
+
+            .btn-registro:hover {
+                background: #ffedd5;
+                border-color: #fdba74;
+            }
+
+            .btn-estado:hover {
+                background: #d1fae5;
+                border-color: #6ee7b7;
+            }
+
+            .btn-ventas:hover {
+                background: #e0f2fe;
+                border-color: #7dd3fc;
+            }
+        }
+
+        /* ===== DESKTOP (lg) ===== */
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 640px;
+                padding: 44px 40px;
+            }
+
+            .logo {
+                width: 180px;
+                margin-bottom: 24px;
+            }
+
+            .welcome-text {
+                font-size: 16px;
+            }
+
+            .section {
+                margin-bottom: 32px;
+            }
+
+            .section-title {
+                font-size: 16px;
+            }
+
+            .menu-item {
+                padding: 20px 24px;
+                font-size: 17px;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="box">
-        <img src="{% static 'capig.webp' %}" class="logo" alt="CAPIG Logo">
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <img src="{% static 'capig.webp' %}" class="logo" alt="Logo CAPIG">
+            <p class="welcome-text">Bienvenido al sistema de gestión CAPIG</p>
+        </header>
 
-        <div class="section-title">Servicios</div>
-        <a href="/diagnostico/" class="btn1">Ir a Diagn&oacute;stico</a>
-        <a href="/capacitacion/" class="btn2">Ir a Capacitaci&oacute;n</a>
+        <!-- Sección Servicios -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Servicios</h2>
+            </div>
+            <nav class="menu-grid">
+                <a href="/diagnostico/" class="menu-item btn-asesoria">
+                    <span class="menu-text">Asesoría</span>
+                    <span class="menu-arrow">›</span>
+                </a>
+                <a href="/capacitacion/" class="menu-item btn-capacitacion">
+                    <span class="menu-text">Capacitación</span>
+                    <span class="menu-arrow">›</span>
+                </a>
+            </nav>
+        </section>
 
-        <div class="section-divider"></div>
-
-        <div class="section-title">Gestión de Afiliados</div>
-        <a href="{% url 'forms:nuevo_afiliado' %}" class="btn5">Registro de afiliados</a>
-        <a href="{% url 'forms:estado_afiliado' %}" class="btn3">Estado del afiliado</a>
-        <a href="{% url 'forms:ventas_afiliado' %}" class="btn4">Ventas afiliado</a>
+        <!-- Sección Gestión de Afiliados -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Gestión de Afiliados</h2>
+            </div>
+            <nav class="menu-grid">
+                <a href="{% url 'forms:nuevo_afiliado' %}" class="menu-item btn-registro">
+                    <span class="menu-text">Registro de afiliados</span>
+                    <span class="menu-arrow">›</span>
+                </a>
+                <a href="{% url 'forms:estado_afiliado' %}" class="menu-item btn-estado">
+                    <span class="menu-text">Estado del afiliado</span>
+                    <span class="menu-arrow">›</span>
+                </a>
+                <a href="{% url 'forms:ventas_afiliado' %}" class="menu-item btn-ventas">
+                    <span class="menu-text">Ventas afiliado</span>
+                    <span class="menu-arrow">›</span>
+                </a>
+            </nav>
+        </section>
     </div>
 </body>
 </html>

@@ -2,20 +2,216 @@
 
 {% block title %}Estado Actualizado - CAPIG{% endblock %}
 
+{% block extra_css %}
+<style>
+    .success-container {
+        text-align: center;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .success-icon {
+        margin-bottom: 30px;
+        animation: checkmark-pop 0.5s ease-out;
+    }
+
+    .success-icon svg {
+        color: #22c55e;
+        filter: drop-shadow(0 4px 12px rgba(34, 197, 94, 0.3));
+    }
+
+    @keyframes checkmark-pop {
+        0% {
+            transform: scale(0);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .success-title {
+        color: #264591;
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .success-subtitle {
+        color: #666;
+        font-size: 16px;
+        margin-bottom: 40px;
+    }
+
+    .update-details {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 32px;
+        text-align: left;
+        border: 1px solid #e2e8f0;
+    }
+
+    .update-details h3 {
+        color: #264591;
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        color: #475569;
+        font-size: 14px;
+    }
+
+    .detail-value {
+        color: #1e293b;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .status-change {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        justify-content: flex-end;
+    }
+
+    .status-badge {
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .status-badge.activo {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .status-badge.inactivo {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .status-arrow {
+        color: #94a3b8;
+        font-size: 18px;
+    }
+
+    .action-buttons {
+        display: grid;
+        gap: 12px;
+    }
+
+    @media (min-width: 640px) {
+        .action-buttons {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    .btn-success-primary {
+        background: linear-gradient(135deg, #264591, #3d5a9e);
+        color: white;
+        padding: 14px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-block;
+        border: none;
+    }
+
+    .btn-success-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(38, 69, 145, 0.3);
+        color: white;
+    }
+
+    .btn-success-secondary {
+        background: white;
+        color: #264591;
+        padding: 14px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-block;
+        border: 2px solid #264591;
+    }
+
+    .btn-success-secondary:hover {
+        background: #f8fafc;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(38, 69, 145, 0.15);
+        color: #264591;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="content-body" style="text-align: center;">
-    <div class="success-icon mb-4">
-        <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-        </svg>
-    </div>
+<div class="content-body">
+    <div class="success-container">
+        <div class="success-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+            </svg>
+        </div>
 
-    <h2 class="content-title">¡Estado Actualizado!</h2>
-    <p class="content-subtitle">El estado del afiliado ha sido actualizado correctamente.</p>
+        <h2 class="success-title">¡Estado Actualizado Exitosamente!</h2>
+        <p class="success-subtitle">El estado del afiliado ha sido actualizado correctamente en el sistema</p>
 
-    <div class="d-grid gap-3">
-        <a href="{% url 'forms:estado_afiliado' %}" class="btn btn-primary">Buscar otro afiliado</a>
-        <a href="{% url 'forms:dashboard' %}" class="btn btn-outline-primary">Volver al Dashboard</a>
+        {% if estado_update %}
+        <div class="update-details">
+            <h3>Detalles del Cambio</h3>
+            
+            <div class="detail-row">
+                <span class="detail-label">Razón Social:</span>
+                <span class="detail-value">{{ estado_update.razon_social }}</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">RUC:</span>
+                <span class="detail-value">{{ estado_update.ruc }}</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Estado:</span>
+                <div class="status-change">
+                    <span class="status-badge {% if estado_update.estado_anterior|lower == 'activo' %}activo{% else %}inactivo{% endif %}">
+                        {{ estado_update.estado_anterior }}
+                    </span>
+                    <span class="status-arrow">→</span>
+                    <span class="status-badge {% if estado_update.estado_nuevo|lower == 'activo' %}activo{% else %}inactivo{% endif %}">
+                        {{ estado_update.estado_nuevo }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="action-buttons">
+            <a href="{% url 'forms:estado_afiliado' %}" class="btn-success-primary">Buscar Otro Afiliado</a>
+            <a href="{% url 'forms:dashboard' %}" class="btn-success-secondary">Volver al Dashboard</a>
+        </div>
     </div>
 </div>
 {% endblock %}

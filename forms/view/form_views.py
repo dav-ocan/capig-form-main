@@ -115,16 +115,6 @@ def diag_form_view(request):
         fecha_str = now_ecuador.strftime('%Y-%m-%d')
         hora_str = now_ecuador.strftime('%H:%M:%S')
 
-        print("\n=== FORMULARIO DE ASESORÍAS ===")
-        print(f"Razón Social: {razon_social}")
-        print(f"Tipo de Asesoría: {tipo_diagnostico}")
-        print(f"Subtipo de Asesoría: {subtipo_diagnostico}")
-        print(f"Otros Subtipo: {otros_subtipo}")
-        print(f"Se realizó la asesoría: {se_diagnostico}")
-        print(f"Fecha: {fecha_str}")
-        print(f"Hora: {hora_str}")
-        print("================================\n")
-
         success = insert_row_to_sheet(settings.SHEET_PATH, SHEET_NAME, [
             razon_social,
             tipo_diagnostico,
@@ -172,15 +162,6 @@ def cap_form_view(request):
         fecha_str = now_ecuador.strftime('%Y-%m-%d')
         hora_str = now_ecuador.strftime('%H:%M:%S')
 
-        print("\n=== FORMULARIO DE CAPACITACIÓN ===")
-        print(f"Razón Social: {razon_social}")
-        print(f"Nombre de la Capacitación: {nombre_capacitacion}")
-        print(f"Tipo de Capacitación: {tipo_capacitacion}")
-        print(f"Valor del Pago: ${valor_pago}")
-        print(f"Fecha: {fecha_str}")
-        print(f"Hora: {hora_str}")
-        print("==================================\n")
-
         success = insert_row_to_sheet(settings.SHEET_PATH, SHEET_NAME, [
             razon_social,
             nombre_capacitacion,
@@ -227,12 +208,6 @@ def custom_404_view(request, exception):
     return render(request, '404.html', status=404)
 
 
-@require_GET
-def estado_inicio_view(request):
-    """Landing para el flujo de estado de afiliado."""
-    return render(request, "estado_inicio.html")
-
-
 @require_http_methods(["GET", "POST"])
 def estado_afiliado_view(request):
     """Consulta y actualiza el estado de un afiliado."""
@@ -246,11 +221,14 @@ def estado_afiliado_view(request):
 
         if afiliado:
             if nuevo_estado:
-                if not _codigo_seguridad_valido(request):
-                    messages.error(request, "Código de seguridad inválido.")
-                    context["afiliado"] = afiliado
-                    return render(request, "estado_afiliado.html", context)
                 actualizar_estado_afiliado(ruc, nuevo_estado)
+                # Guardar info en sesión para mostrarla en success
+                request.session['estado_update'] = {
+                    'razon_social': afiliado.get('razon_social', 'N/A'),
+                    'ruc': ruc,
+                    'estado_anterior': afiliado.get('estado', 'N/A'),
+                    'estado_nuevo': nuevo_estado
+                }
                 return redirect("forms:success_estado_afiliado")
             context["afiliado"] = afiliado
         else:
@@ -262,7 +240,10 @@ def estado_afiliado_view(request):
 @require_GET
 def success_estado_afiliado_view(request):
     """Confirmación de actualización de estado."""
-    return render(request, "success_estado_afiliado.html")
+    # Obtener datos de la sesión
+    estado_update = request.session.pop('estado_update', None)
+    context = {'estado_update': estado_update}
+    return render(request, "success_estado_afiliado.html", context)
 
 
 @require_http_methods(["GET", "POST"])
@@ -271,10 +252,6 @@ def nuevo_afiliado_view(request):
     sectores = _obtener_sectores()
 
     if request.method == "POST":
-        if not _codigo_seguridad_valido(request):
-            messages.error(request, "Código de seguridad inválido.")
-            return render(request, "afiliado_form.html", {"sectores": sectores})
-
         razon_social = request.POST.get("razon_social", "").strip()
         ruc = request.POST.get("ruc", "").strip()
         ciudad = request.POST.get("ciudad", "").strip()
@@ -315,12 +292,6 @@ def nuevo_afiliado_view(request):
             messages.error(request, f"Error al registrar: {exc}")
 
     return render(request, "afiliado_form.html", {"sectores": sectores})
-
-
-@require_GET
-def ventas_inicio_view(request):
-    """Landing para el flujo de registro de ventas de afiliados."""
-    return render(request, "ventas_inicio.html")
 
 
 @require_http_methods(["GET", "POST"])
@@ -365,10 +336,6 @@ def ventas_afiliado_view(request):
                 return render(request, "ventas_afiliado.html", context)
 
             # Fase 2: ya respondio preguntas -> guardar
-            if not _codigo_seguridad_valido(request):
-                messages.error(request, "Codigo de seguridad invalido.")
-                return render(request, "ventas_afiliado.html", context)
-
             rv_norm = (registro_ventas or "").strip().lower()
             es_si = rv_norm in {"si", "sí", "s\u00ed", "s"}
 

@@ -2,26 +2,117 @@
 
 {% block title %}Registro de Ventas Exitoso - CAPIG{% endblock %}
 
+{% block extra_css %}
+<style>
+    .success-container {
+        text-align: center;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .success-icon {
+        margin-bottom: 30px;
+        animation: checkmark-pop 0.5s ease-out;
+    }
+
+    .success-icon svg {
+        color: #22c55e;
+        filter: drop-shadow(0 4px 12px rgba(34, 197, 94, 0.3));
+    }
+
+    @keyframes checkmark-pop {
+        0% {
+            transform: scale(0);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .success-title {
+        color: #264591;
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .success-subtitle {
+        color: #666;
+        font-size: 16px;
+        margin-bottom: 40px;
+    }
+
+    .action-buttons {
+        display: grid;
+        gap: 12px;
+    }
+
+    @media (min-width: 640px) {
+        .action-buttons {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    .btn-success-primary {
+        background: linear-gradient(135deg, #264591, #3d5a9e);
+        color: white;
+        padding: 14px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-block;
+        border: none;
+    }
+
+    .btn-success-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(38, 69, 145, 0.3);
+        color: white;
+    }
+
+    .btn-success-secondary {
+        background: white;
+        color: #264591;
+        padding: 14px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-block;
+        border: 2px solid #264591;
+    }
+
+    .btn-success-secondary:hover {
+        background: #f8fafc;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(38, 69, 145, 0.15);
+        color: #264591;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="content-body" style="text-align: center;">
-    <div class="mb-4">
+<div class="content-body">
+    <div class="success-container">
         <div class="success-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" fill="currentColor"
-                class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                <path
-                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
             </svg>
         </div>
-    </div>
 
-    <h2 class="content-title">¡Registro Exitoso!</h2>
-    <p class="content-subtitle">
-        La información de ventas del afiliado ha sido registrada correctamente.
-    </p>
+        <h2 class="success-title">¡Registro de Ventas Exitoso!</h2>
+        <p class="success-subtitle">La información de ventas del afiliado ha sido registrada correctamente en el sistema</p>
 
-    <div class="d-grid gap-3">
-        <a href="{% url 'forms:ventas_afiliado' %}" class="btn btn-primary">Registrar otra venta</a>
-        <a href="{% url 'forms:dashboard' %}" class="btn btn-outline-primary">Volver al Dashboard</a>
+        <div class="action-buttons">
+            <a href="{% url 'forms:ventas_afiliado' %}" class="btn-success-primary">Registrar Otra Venta</a>
+            <a href="{% url 'forms:dashboard' %}" class="btn-success-secondary">Volver al Dashboard</a>
+        </div>
     </div>
 </div>
 {% endblock %}

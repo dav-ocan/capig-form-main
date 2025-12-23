@@ -10,7 +10,6 @@
     <p class="content-subtitle">Busca por RUC y registra el comparativo de ventas del año.</p>
     <form method="POST">
         {% csrf_token %}
-        <input type="hidden" name="security_code" value="">
         <input type="text" name="ruc" placeholder="Ingrese RUC" class="form-control mb-3" value="{{ ruc }}" required>
 
         {% if no_encontrado %}
@@ -102,7 +101,7 @@
                 <label for="observaciones" class="form-label mt-3">Observaciones adicionales (opcional)</label>
                 <textarea name="observaciones" id="observaciones" class="form-control" rows="3">{{ observaciones }}</textarea>
 
-                <button type="submit" class="btn btn-success mt-4" data-require-security="true">Guardar</button>
+                <button type="submit" class="btn btn-success mt-4">Guardar</button>
             </div>
 
             <template id="venta-template">

@@ -12,7 +12,6 @@
     <p class="content-subtitle">Busca y actualiza el estado (Activo/Inactivo)</p>
     <form method="POST" class="text-center">
         {% csrf_token %}
-        <input type="hidden" name="security_code" value="">
         
         {% if no_encontrado %}
             <input
@@ -44,7 +43,7 @@
             </select>
 
             <div class="d-flex gap-2 mt-3">
-                <button type="submit" class="btn btn-primary" data-require-security="true">Actualizar</button>
+                <button type="submit" class="btn btn-primary">Actualizar</button>
                 <a href="{% url 'forms:estado_afiliado' %}" class="btn btn-outline-secondary">Volver</a>
             </div>
         </div>

@@ -6,7 +6,7 @@
 <style>
     .welcome-section {
         text-align: center;
-        padding: 60px 20px;
+        padding: 60px 20px 40px;
     }
 
     .welcome-section h1 {
@@ -19,55 +19,140 @@
     .welcome-section p {
         color: #666;
         font-size: 18px;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
+    }
+
+    .dashboard-container {
+        margin: 0 auto;
+        padding: 0 20px;
     }
 
     .dashboard-grid {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 20px;
-        max-width: 900px;
-        margin: 0 auto;
+        gap: 24px;
     }
 
     @media (min-width: 768px) {
         .dashboard-grid {
             grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .welcome-section {
+            padding: 20px 20px 0px;
+        }
+
+        .welcome-section h1 {
+            font-size: 52px;
+        }
+
+        .welcome-section p {
+            font-size: 20px;
+            margin-bottom: 60px;
+        }
+
+        .dashboard-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+    }
+
+    @media (min-width: 1440px) {
+        .dashboard-grid {
+            gap: 36px;
         }
     }
 
     .dashboard-card {
         background: white;
         border: 2px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 24px;
-        transition: all 0.3s ease;
+        border-radius: 16px;
+        padding: 28px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         text-decoration: none;
-        display: block;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        position: relative;
+        overflow: hidden;
+        min-height: 180px;
+    }
+
+    .dashboard-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #264591, #3d5a9e);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .dashboard-card:hover::before {
+        transform: scaleX(1);
     }
 
     .dashboard-card:hover {
-        border-color: var(--color-primary);
-        transform: translateY(-4px);
-        box-shadow: 0 8px 20px rgba(38, 69, 145, 0.15);
+        border-color: #264591;
+        transform: translateY(-8px);
+        box-shadow: 0 12px 32px rgba(38, 69, 145, 0.2);
+    }
+
+    @media (min-width: 1024px) {
+        .dashboard-card {
+            padding: 32px;
+            min-height: 200px;
+        }
     }
 
     .card-icon {
-        font-size: 36px;
+        font-size: 40px;
         margin-bottom: 16px;
+        transition: transform 0.3s ease;
+    }
+
+    @media (min-width: 1024px) {
+        .card-icon {
+            font-size: 44px;
+            margin-bottom: 18px;
+        }
+    }
+
+    .dashboard-card:hover .card-icon {
+        transform: scale(1.1);
     }
 
     .card-title {
         color: #264591;
         font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 8px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        line-height: 1.3;
+    }
+
+    @media (min-width: 1024px) {
+        .card-title {
+            font-size: 21px;
+            margin-bottom: 12px;
+        }
     }
 
     .card-description {
         color: #666;
         font-size: 14px;
-        line-height: 1.5;
+        line-height: 1.6;
+        flex-grow: 1;
+    }
+
+    @media (min-width: 1024px) {
+        .card-description {
+            font-size: 15px;
+        }
     }
 
     .card-primary {
@@ -75,14 +160,51 @@
         border: none;
     }
 
+    .card-primary::before {
+        display: none;
+    }
+
     .card-primary:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 20px rgba(38, 69, 145, 0.35);
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 16px 40px rgba(38, 69, 145, 0.4);
+    }
+
+    .card-primary .card-icon {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
     }
 
     .card-primary .card-title,
     .card-primary .card-description {
         color: white;
+    }
+
+    .card-primary .card-title {
+        font-size: 21px;
+    }
+
+    @media (min-width: 1024px) {
+        .card-primary .card-title {
+            font-size: 22px;
+        }
+    }
+
+    /* Efecto de brillo en hover para cards primarios */
+    .card-primary::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .card-primary:hover::after {
+        width: 400px;
+        height: 400px;
     }
 </style>
 {% endblock %}
@@ -94,7 +216,8 @@
         <p>Seleccione una opción para comenzar</p>
     </div>
 
-    <div class="dashboard-grid">
+    <div class="dashboard-container">
+        <div class="dashboard-grid">
         <!-- Asesoría -->
         <a href="{% url 'forms:diag_form' %}" class="dashboard-card card-primary">
             <div class="card-icon">💼</div>
@@ -129,6 +252,7 @@
             <h3 class="card-title">Ventas Afiliado</h3>
             <p class="card-description">Registre las ventas anuales de afiliados</p>
         </a>
+    </div>
     </div>
 </div>
 {% endblock %}

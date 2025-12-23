@@ -10,9 +10,8 @@
     
     <h2 class="content-title">Registro de Afiliado</h2>
     <p class="content-subtitle">Complete la información para registrar una nueva empresa</p>
-    <form method="post" action="{% url 'forms:nuevo_afiliado' %}" data-require-security="true">
+    <form method="post" action="{% url 'forms:nuevo_afiliado' %}">
         {% csrf_token %}
-        <input type="hidden" name="security_code" value="">
 
         <div class="mb-4">
             <label class="form-label">Razón Social <span class="text-danger">*</span></label>
@@ -101,7 +100,7 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary" data-require-security="true">Registrar Afiliado</button>
+            <button type="submit" class="btn btn-primary">Registrar Afiliado</button>
         </div>
     </form>
 </div>
